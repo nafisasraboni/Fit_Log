@@ -22,7 +22,7 @@ export default function WorkoutClient({ id }) {
     const fetchWorkoutDetail = async () => {
       try {
         const res = await fetch(
-          `https://api.abcz.workers.dev/api/fitlog/${id}`,
+          `https://api.api-store.workers.dev/api/fitlog/${id}`,
         );
 
         if (!res.ok) {

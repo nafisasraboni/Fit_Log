@@ -11,7 +11,7 @@ export default function Library() {
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const res = await fetch("https://api.abcz.workers.dev/api/fitlog");
+        const res = await fetch("https://api.api-store.workers.dev/api/fitlog");
 
         const contentType = res.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
