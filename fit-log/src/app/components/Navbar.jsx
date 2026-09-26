@@ -1,9 +1,9 @@
-'use client';
-import { useState, useContext } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { AppContext } from '@/context/AppContext';
-import { FaDumbbell, FaBars, FaTimes } from 'react-icons/fa';
+"use client";
+import { useState, useContext } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AppContext } from "@/context/AppContext";
+import { FaDumbbell, FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar() {
   const { planList = [], savedList = [] } = useContext(AppContext);
@@ -12,9 +12,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full px-4 md:px-12 py-6 flex items-center justify-between border-b border-gray-800/60 bg-[#0f1113]/80 backdrop-blur-md sticky top-0 z-50">
-      {/* Left Side: Hamburger (Mobile) + Logo */}
       <div className="flex items-center gap-3">
-        {/* Mobile Hamburger Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-white text-2xl p-1 focus:outline-none cursor-pointer"
@@ -22,8 +20,10 @@ export default function Navbar() {
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 text-white font-oswald font-black text-lg md:text-xl tracking-wider">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-white font-oswald font-black text-lg md:text-xl tracking-wider"
+        >
           <span className="bg-brand text-black p-1.5 md:p-2 rounded-xl flex items-center justify-center">
             <FaDumbbell className="text-base md:text-lg" />
           </span>
@@ -31,12 +31,11 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Desktop Navigation Links */}
       <div className="hidden md:flex items-center gap-8 bg-[#15171a] border border-gray-800 px-6 py-2 rounded-full">
         <Link
           href="/"
           className={`text-sm font-bold uppercase tracking-wider transition-colors ${
-            pathname === '/' ? 'text-brand' : 'text-gray-400 hover:text-white'
+            pathname === "/" ? "text-brand" : "text-gray-400 hover:text-white"
           }`}
         >
           Workouts
@@ -44,14 +43,15 @@ export default function Navbar() {
         <Link
           href="/my-plan"
           className={`text-sm font-bold uppercase tracking-wider transition-colors ${
-            pathname === '/my-plan' ? 'text-brand' : 'text-gray-400 hover:text-white'
+            pathname === "/my-plan"
+              ? "text-brand"
+              : "text-gray-400 hover:text-white"
           }`}
         >
           My Plan
         </Link>
       </div>
 
-      {/* Right Badges (Plan & Saved) — ALWAYS VISIBLE on all screen sizes */}
       <div className="flex items-center gap-2 md:gap-4">
         <Link
           href="/my-plan"
@@ -73,14 +73,13 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Mobile Dropdown Menu for Nav Links */}
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-[#15171a] border-b border-gray-800 p-6 flex flex-col gap-4 md:hidden shadow-2xl">
           <Link
             href="/"
             onClick={() => setIsOpen(false)}
             className={`text-base font-bold uppercase tracking-wider py-2 ${
-              pathname === '/' ? 'text-brand' : 'text-gray-300'
+              pathname === "/" ? "text-brand" : "text-gray-300"
             }`}
           >
             Workouts
@@ -89,7 +88,7 @@ export default function Navbar() {
             href="/my-plan"
             onClick={() => setIsOpen(false)}
             className={`text-base font-bold uppercase tracking-wider py-2 ${
-              pathname === '/my-plan' ? 'text-brand' : 'text-gray-300'
+              pathname === "/my-plan" ? "text-brand" : "text-gray-300"
             }`}
           >
             My Plan

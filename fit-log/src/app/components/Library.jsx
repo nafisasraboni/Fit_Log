@@ -47,7 +47,6 @@ export default function Library() {
           <span className="loading loading-spinner loading-lg text-brand"></span>
         </div>
       ) : (
-        /* 3x4 Grid Setup */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {workouts.map((workout) => (
             <Link
@@ -65,9 +64,7 @@ export default function Library() {
                   />
                 </div>
 
-                {/* Card Content */}
                 <div className="p-5 flex flex-col flex-grow">
-                  {/* Category Pills (এখানে muscleGroups ব্যবহার করা হলো) */}
                   <div className="flex gap-2 mb-3">
                     {workout.muscleGroups?.map((group, idx) => (
                       <span
@@ -79,7 +76,6 @@ export default function Library() {
                     ))}
                   </div>
 
-                  {/* Title & Equipment */}
                   <h3 className="text-white font-oswald font-bold text-2xl uppercase leading-tight mb-1">
                     {workout.name}
                   </h3>

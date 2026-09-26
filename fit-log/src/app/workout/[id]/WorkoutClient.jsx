@@ -1,23 +1,30 @@
-'use client';
-import { useEffect, useState, useContext } from 'react';
-import Image from 'next/image';
-import { AppContext } from '@/context/AppContext';
-import { FaCalendarPlus, FaRegBookmark } from 'react-icons/fa6';
+"use client";
+import { useEffect, useState, useContext } from "react";
+import Image from "next/image";
+import { AppContext } from "@/context/AppContext";
+import { FaCalendarPlus, FaRegBookmark } from "react-icons/fa6";
 
 export default function WorkoutClient({ id }) {
-  const { addToPlan, addToSaved, planList = [], savedList = [] } = useContext(AppContext);
-  
+  const {
+    addToPlan,
+    addToSaved,
+    planList = [],
+    savedList = [],
+  } = useContext(AppContext);
+
   const [workout, setWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!id) return;
-    
+
     const fetchWorkoutDetail = async () => {
       try {
-        const res = await fetch(`https://api.abcz.workers.dev/api/fitlog/${id}`);
-        
+        const res = await fetch(
+          `https://api.abcz.workers.dev/api/fitlog/${id}`,
+        );
+
         if (!res.ok) {
           throw new Error("Failed to fetch workout details");
         }
@@ -36,24 +43,24 @@ export default function WorkoutClient({ id }) {
 
   const currentPlan = Array.isArray(planList) ? planList : [];
   const currentSaved = Array.isArray(savedList) ? savedList : [];
-  const workoutId = String(workout?.id || workout?._id || '');
+  const workoutId = String(workout?.id || workout?._id || "");
 
   const isAlreadyInPlan = currentPlan.some(
-    (item) => String(item.id || item._id || '') === workoutId
+    (item) => String(item.id || item._id || "") === workoutId,
   );
 
   const isAlreadySaved = currentSaved.some(
-    (item) => String(item.id || item._id || '') === workoutId
+    (item) => String(item.id || item._id || "") === workoutId,
   );
 
   const handleAddToPlan = () => {
     if (!workout) return;
-    addToPlan(workout); 
+    addToPlan(workout);
   };
 
   const handleSaveForLater = () => {
     if (!workout) return;
-    addToSaved(workout); 
+    addToSaved(workout);
   };
 
   if (loading) {
@@ -88,7 +95,6 @@ export default function WorkoutClient({ id }) {
         </div>
       </div>
 
-      {/* Right Side — Sections */}
       <div className="w-full lg:w-1/2 flex flex-col justify-start">
         <h1 className="text-5xl font-oswald font-black uppercase text-white mb-4">
           {workout.name}
@@ -97,7 +103,6 @@ export default function WorkoutClient({ id }) {
           {workout.description || "Description not available."}
         </p>
 
-        {/* Category Tags */}
         <div className="flex gap-3 mb-8">
           {workout.muscleGroups?.map((group, idx) => (
             <span
@@ -109,7 +114,6 @@ export default function WorkoutClient({ id }) {
           ))}
         </div>
 
-        {/* Key Specs Table / Panel */}
         <div className="bg-[#15171a] border border-gray-800 rounded-xl overflow-hidden mb-8">
           <div className="flex justify-between px-5 py-4 border-b border-gray-800">
             <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
@@ -169,7 +173,6 @@ export default function WorkoutClient({ id }) {
           </div>
         </div>
 
-        {/* Instructions */}
         <div className="mb-10">
           <h3 className="text-white font-oswald font-bold text-xl uppercase tracking-wider mb-4">
             Instructions
@@ -183,30 +186,27 @@ export default function WorkoutClient({ id }) {
           </ol>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-2">
-          {/* Primary Button */}
-          <button 
+          <button
             onClick={handleAddToPlan}
             disabled={isAlreadyInPlan}
             className={`flex-1 font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 transition-colors ${
-              isAlreadyInPlan 
-                ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
-                : 'bg-brand text-black hover:bg-white cursor-pointer'
+              isAlreadyInPlan
+                ? "bg-gray-700 text-gray-400 cursor-not-allowed"
+                : "bg-brand text-black hover:bg-white cursor-pointer"
             }`}
           >
             <FaCalendarPlus className="text-lg" />
             {isAlreadyInPlan ? "Already in plan" : "Add to today's plan"}
           </button>
-          
-          {/* Secondary Button */}
-          <button 
+
+          <button
             onClick={handleSaveForLater}
             disabled={isAlreadySaved}
             className={`flex-1 border font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 transition-colors ${
               isAlreadySaved
-                ? 'bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed'
-                : 'bg-transparent border-gray-600 text-white hover:bg-gray-800 cursor-pointer'
+                ? "bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed"
+                : "bg-transparent border-gray-600 text-white hover:bg-gray-800 cursor-pointer"
             }`}
           >
             <FaRegBookmark className="text-lg" />
