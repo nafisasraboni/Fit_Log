@@ -1,20 +1,25 @@
-"use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+'use client';
+import { useEffect, useState, useContext } from 'react';
+import Image from 'next/image';
+import { AppContext } from '@/context/AppContext';
+import { toast } from 'react-toastify';
 import { FaCalendarPlus, FaRegBookmark } from 'react-icons/fa6';
 
+// Ekhane params er bodole direct id prop receive korchi
 export default function WorkoutClient({ id }) {
+  const { addToPlan, addToSaved, plan = [] } = useContext(AppContext);
+  
   const [workout, setWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!id) return;
+    
     const fetchWorkoutDetail = async () => {
       try {
-        const res = await fetch(
-          `https://api.abcz.workers.dev/api/fitlog/${id}`,
-        );
-
+        const res = await fetch(`https://api.abcz.workers.dev/api/fitlog/${id}`);
+        
         if (!res.ok) {
           throw new Error("Failed to fetch workout details");
         }
@@ -30,6 +35,21 @@ export default function WorkoutClient({ id }) {
 
     fetchWorkoutDetail();
   }, [id]);
+
+  const handleAddToPlan = () => {
+    const currentPlan = Array.isArray(plan) ? plan : [];
+    if (currentPlan.length >= 5) {
+      toast.error("Cap of five lifts reached for today!");
+      return;
+    }
+    addToPlan(workout);
+    toast.success("Added to today's plan"); // শুধু একটি টোস্ট
+  };
+
+  const handleSaveForLater = () => {
+    addToSaved(workout);
+    toast.success("Saved for later"); // এখানে একটি মাত্র টোস্ট (info এর বদলে success বা info যেটা রাখতে চান)
+  };
 
   if (loading) {
     return (
@@ -160,10 +180,10 @@ export default function WorkoutClient({ id }) {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-2">
-          
           {/* Primary Button */}
           <button 
-            className="flex-1 bg-brand text-black font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white transition-colors"
+            onClick={handleAddToPlan}
+            className="flex-1 bg-brand text-black font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white transition-colors cursor-pointer"
           >
             <FaCalendarPlus className="text-lg" />
             Add to today&apos;s plan
@@ -171,12 +191,12 @@ export default function WorkoutClient({ id }) {
           
           {/* Secondary Button */}
           <button 
-            className="flex-1 bg-transparent border border-gray-600 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+            onClick={handleSaveForLater}
+            className="flex-1 bg-transparent border border-gray-600 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer"
           >
             <FaRegBookmark className="text-lg" />
             Save for later
           </button>
-
         </div>
       </div>
     </div>
