@@ -8,7 +8,7 @@ export const AppProvider = ({ children }) => {
   const [planList, setPlanList] = useState([]);
   const [savedList, setSavedList] = useState([]);
 
-  // LocalStorage থেকে ডাটা লোড করা (পেজ রিলোড করলেও ডাটা থাকবে)
+  // LocalStorage theke data load kora
   useEffect(() => {
     const savedPlan = JSON.parse(localStorage.getItem('fitlog_plan')) || [];
     const savedItems = JSON.parse(localStorage.getItem('fitlog_saved')) || [];
@@ -16,7 +16,7 @@ export const AppProvider = ({ children }) => {
     setSavedList(savedItems);
   }, []);
 
-  // ডাটা আপডেট হলে LocalStorage-এ সেভ করা
+  // Data update hole LocalStorage-e save kora
   useEffect(() => {
     localStorage.setItem('fitlog_plan', JSON.stringify(planList));
     localStorage.setItem('fitlog_saved', JSON.stringify(savedList));
@@ -24,10 +24,13 @@ export const AppProvider = ({ children }) => {
 
   const addToPlan = (workout) => {
     if (planList.length >= 5) {
-      toast.error("You can only add up to 5 workouts for today!");
+      toast.error("Cap of five lifts reached for today!");
       return;
     }
-    if (!planList.find((item) => item.id === workout.id)) {
+    const workoutId = String(workout.id || workout._id);
+    const exists = planList.some((item) => String(item.id || item._id) === workoutId);
+
+    if (!exists) {
       setPlanList([...planList, workout]);
       toast.success("Added to today's plan");
     } else {
@@ -36,7 +39,10 @@ export const AppProvider = ({ children }) => {
   };
 
   const addToSaved = (workout) => {
-    if (!savedList.find((item) => item.id === workout.id)) {
+    const workoutId = String(workout.id || workout._id);
+    const exists = savedList.some((item) => String(item.id || item._id) === workoutId);
+
+    if (!exists) {
       setSavedList([...savedList, workout]);
       toast.success("Saved for later");
     } else {
@@ -45,12 +51,18 @@ export const AppProvider = ({ children }) => {
   };
 
   const removeFromPlan = (id) => {
-    setPlanList(planList.filter((item) => item.id !== id));
-    toast.success("Removed from plan");
+    setPlanList(planList.planList || planList.filter((item) => String(item.id || item._id) !== String(id)));
+    setPlanList(prev => prev.filter((item) => String(item.id || item._id) !== String(id)));
+    toast.error("Removed from plan");
+  };
+
+  const removeFromSaved = (id) => {
+    setSavedList(prev => prev.filter((item) => String(item.id || item._id) !== String(id)));
+    toast.error("Removed from saved");
   };
 
   return (
-    <AppContext.Provider value={{ planList, savedList, addToPlan, addToSaved, removeFromPlan }}>
+    <AppContext.Provider value={{ planList, savedList, addToPlan, addToSaved, removeFromPlan, removeFromSaved }}>
       {children}
     </AppContext.Provider>
   );
