@@ -1,81 +1,101 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "@/context/AppContext";
+'use client';
+import { useState, useContext } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { AppContext } from '@/context/AppContext';
+import { FaDumbbell, FaBars, FaTimes } from 'react-icons/fa';
 
 export default function Navbar() {
+  const { planList = [], savedList = [] } = useContext(AppContext);
   const pathname = usePathname();
-  const { planList = [], savedList = [] } = useContext(AppContext) || {};
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 0);
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="navbar bg-darkBg text-white px-4 md:px-12 py-4 border-b border-gray-800 sticky top-0 z-50">
-      <div className="navbar-start">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-2xl font-black tracking-widest uppercase"
+    <nav className="w-full px-4 md:px-12 py-6 flex items-center justify-between border-b border-gray-800/60 bg-[#0f1113]/80 backdrop-blur-md sticky top-0 z-50">
+      {/* Left Side: Hamburger (Mobile) + Logo */}
+      <div className="flex items-center gap-3">
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-white text-2xl p-1 focus:outline-none cursor-pointer"
         >
-          <Image
-            src="/assets/logo.png"
-            alt="FitLog Logo"
-            width={32}
-            height={32}
-            className="object-contain"
-            priority // লোগো দ্রুত লোড হওয়ার জন্য
-          />
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 text-white font-oswald font-black text-lg md:text-xl tracking-wider">
+          <span className="bg-brand text-black p-1.5 md:p-2 rounded-xl flex items-center justify-center">
+            <FaDumbbell className="text-base md:text-lg" />
+          </span>
           FITLOG
         </Link>
       </div>
 
-      <div className="navbar-center hidden lg:flex">
-        <ul className="flex gap-2">
-          <li>
-            <Link
-              href="/"
-              className={`px-4 py-2 rounded-full text-sm font-medium transition ${pathname === "/" ? "bg-[#1a2015] text-brand" : "text-gray-400 hover:text-white"}`}
-            >
-              Workouts
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/my-plan"
-              className={`px-4 py-2 rounded-full text-sm font-medium transition ${pathname === "/my-plan" ? "bg-[#1a2015] text-brand" : "text-gray-400 hover:text-white"}`}
-            >
-              My Plan
-            </Link>
-          </li>
-        </ul>
+      {/* Desktop Navigation Links */}
+      <div className="hidden md:flex items-center gap-8 bg-[#15171a] border border-gray-800 px-6 py-2 rounded-full">
+        <Link
+          href="/"
+          className={`text-sm font-bold uppercase tracking-wider transition-colors ${
+            pathname === '/' ? 'text-brand' : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          Workouts
+        </Link>
+        <Link
+          href="/my-plan"
+          className={`text-sm font-bold uppercase tracking-wider transition-colors ${
+            pathname === '/my-plan' ? 'text-brand' : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          My Plan
+        </Link>
       </div>
 
-      <div className="navbar-end gap-6 hidden sm:flex">
+      {/* Right Badges (Plan & Saved) — ALWAYS VISIBLE on all screen sizes */}
+      <div className="flex items-center gap-2 md:gap-4">
         <Link
           href="/my-plan"
-          className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white"
+          className="flex items-center gap-1.5 md:gap-2 text-white font-bold text-xs md:text-sm bg-[#15171a] border border-gray-800 px-3 md:px-4 py-1.5 md:py-2 rounded-full hover:border-brand transition-all cursor-pointer shadow-md"
         >
-          Plan
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-brand text-black text-xs font-bold">
-            {mounted ? planList.length : 0}
+          <span>Plan</span>
+          <span className="w-5 h-5 md:w-6 md:h-6 bg-brand text-black rounded-full flex items-center justify-center text-[10px] md:text-xs font-black shadow-md">
+            {planList.length}
           </span>
         </Link>
         <Link
           href="/my-plan"
-          className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white"
+          className="flex items-center gap-1.5 md:gap-2 text-white font-bold text-xs md:text-sm bg-[#15171a] border border-gray-800 px-3 md:px-4 py-1.5 md:py-2 rounded-full hover:border-gray-600 transition-all cursor-pointer shadow-md"
         >
-          Saved
-          <span className="flex items-center justify-center w-5 h-5 rounded-full border border-gray-500 text-xs font-bold">
-            {mounted ? savedList.length : 0}
+          <span>Saved</span>
+          <span className="w-5 h-5 md:w-6 md:h-6 border border-gray-600 text-white rounded-full flex items-center justify-center text-[10px] md:text-xs font-black">
+            {savedList.length}
           </span>
         </Link>
       </div>
-    </div>
+
+      {/* Mobile Dropdown Menu for Nav Links */}
+      {isOpen && (
+        <div className="absolute top-full left-0 w-full bg-[#15171a] border-b border-gray-800 p-6 flex flex-col gap-4 md:hidden shadow-2xl">
+          <Link
+            href="/"
+            onClick={() => setIsOpen(false)}
+            className={`text-base font-bold uppercase tracking-wider py-2 ${
+              pathname === '/' ? 'text-brand' : 'text-gray-300'
+            }`}
+          >
+            Workouts
+          </Link>
+          <Link
+            href="/my-plan"
+            onClick={() => setIsOpen(false)}
+            className={`text-base font-bold uppercase tracking-wider py-2 ${
+              pathname === '/my-plan' ? 'text-brand' : 'text-gray-300'
+            }`}
+          >
+            My Plan
+          </Link>
+        </div>
+      )}
+    </nav>
   );
 }
