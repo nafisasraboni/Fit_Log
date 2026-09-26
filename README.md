@@ -29,8 +29,8 @@ FitLog serves as a no-nonsense gym companion that bridges the gap between raw wo
 
 ## ⭐ 5 Key Features
 
-1. **Dynamic Workout Library & Search:** Browse a comprehensive collection of lifts covering every major muscle group fetched directly from the FitLog API, equipped with real-time name and tag-based filtering.
-2. **Interactive Daily Plan & Capping:** Add up to 5 custom lifts to your daily routine (with strict daily cap limits and disabled states) or save workouts for later with live-updating metrics summary (Exercises, Minutes, and Calories).
+1. **Dynamic Workout Library :** Browse a comprehensive collection of lifts covering every major muscle group fetched directly from the FitLog API, equipped with real-time name and tag-based filtering.
+2. **Interactive Daily Plan & Capping:** Add up to custom lifts to your daily routine (with disabled states) or save workouts for later with live-updating metrics summary (Exercises, Minutes, and Calories).
 3. **Advanced Sorting & Tracking:** Instantly sort your current plan or saved list by **Duration**, **Calories**, or **Rating**, and toggle the "Mark as Done" or "Remove" actions with instant custom toast alerts.
 4. **Persistent State Management:** User selections, customized routines, and saved items are securely synchronized with browser `LocalStorage`, guaranteeing data retention across browser reloads.
 5. **Figma-Inspired Responsive UI & 404 Safety:** Built with a sleek dark gym aesthetic featuring precise spacing, typography (Oswald & custom sans), dynamic badge counters in the navbar, a mobile hamburger drawer, and a dedicated custom 404 error page.
