@@ -1,6 +1,6 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function WorkoutClient({ id }) {
   const [workout, setWorkout] = useState(null);
@@ -10,10 +10,12 @@ export default function WorkoutClient({ id }) {
   useEffect(() => {
     const fetchWorkoutDetail = async () => {
       try {
-        const res = await fetch(`https://api.abcz.workers.dev/api/fitlog/${id}`);
-        
+        const res = await fetch(
+          `https://api.abcz.workers.dev/api/fitlog/${id}`,
+        );
+
         if (!res.ok) {
-          throw new Error('Failed to fetch workout details');
+          throw new Error("Failed to fetch workout details");
         }
 
         const data = await res.json();
@@ -47,12 +49,11 @@ export default function WorkoutClient({ id }) {
 
   return (
     <div className="px-4 md:px-12 py-10 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
-      
       {/* Left Side — Visual/Media */}
       <div className="w-full lg:w-1/2">
-        <div className="relative w-full aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-[#15171a] border border-gray-800">
+        <div className="relative w-full aspect-square md:aspect-4/5 rounded-3xl overflow-hidden bg-[#15171a] border border-gray-800">
           <Image
-            src={workout.image || '/assets/banner.png'}
+            src={workout.image || "/assets/banner.png"}
             alt={workout.name || "Workout"}
             fill
             className="object-cover"
@@ -69,13 +70,100 @@ export default function WorkoutClient({ id }) {
         <p className="text-gray-400 text-lg mb-6 leading-relaxed">
           {workout.description || "Description not available."}
         </p>
-        
-        {/* Placeholder for tags, stats table, and buttons */}
-        <div className="bg-[#15171a] p-5 rounded-xl border border-gray-800 h-64 flex items-center justify-center text-gray-500">
-           Stats, Instructions, and Action Buttons will go here...
+
+        {/* Category Tags */}
+        <div className="flex gap-3 mb-8">
+          {workout.muscleGroups?.map((group, idx) => (
+            <span
+              key={idx}
+              className="bg-brand text-black font-bold px-4 py-1.5 rounded-full uppercase text-sm tracking-wider"
+            >
+              {group}
+            </span>
+          ))}
+        </div>
+
+        {/* Key Specs Table / Panel */}
+        <div className="bg-[#15171a] border border-gray-800 rounded-xl overflow-hidden mb-8">
+          <div className="flex justify-between px-5 py-4 border-b border-gray-800">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Equipment
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.equipment || "-"}
+            </span>
+          </div>
+          <div className="flex justify-between px-5 py-4 border-b border-gray-800">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Difficulty
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.difficulty || "-"}
+            </span>
+          </div>
+          <div className="flex justify-between px-5 py-4 border-b border-gray-800">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Sets
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.sets || "-"}
+            </span>
+          </div>
+          <div className="flex justify-between px-5 py-4 border-b border-gray-800">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Reps
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.reps || "-"}
+            </span>
+          </div>
+          <div className="flex justify-between px-5 py-4 border-b border-gray-800">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Duration
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.duration || 0} min
+            </span>
+          </div>
+          <div className="flex justify-between px-5 py-4 border-b border-gray-800">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Calories
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.caloriesBurned || 0} kcal
+            </span>
+          </div>
+          <div className="flex justify-between px-5 py-4">
+            <span className="text-gray-500 font-bold uppercase text-[13px] tracking-wider">
+              Rating
+            </span>
+            <span className="text-white font-medium text-sm">
+              {workout.rating || 0}
+            </span>
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className="mb-10">
+          <h3 className="text-white font-oswald font-bold text-xl uppercase tracking-wider mb-4">
+            Instructions
+          </h3>
+          <ol className="list-decimal list-outside ml-4 text-gray-300 space-y-3">
+            {workout.instructions?.map((step, idx) => (
+              <li key={idx} className="leading-relaxed text-sm pl-1">
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="p-4 bg-gray-800 rounded-lg text-gray-500 w-full text-center text-sm font-bold border border-dashed border-gray-600">
+            Call to action buttons placeholder
+          </div>
         </div>
       </div>
-      
     </div>
   );
 }

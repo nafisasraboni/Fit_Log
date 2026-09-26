@@ -1,13 +1,13 @@
-import WorkoutClient from './WorkoutClient';
+import WorkoutClient from "./WorkoutClient";
 
 export async function generateStaticParams() {
   try {
-    const res = await fetch('https://api.abcz.workers.dev/api/fitlog');
+    const res = await fetch("https://api.abcz.workers.dev/api/fitlog");
     if (!res.ok) {
-       return [];
+      return [];
     }
     const workouts = await res.json();
-    
+
     return workouts.map((workout) => ({
       id: workout.id?.toString() || workout._id?.toString(),
     }));
@@ -18,8 +18,7 @@ export async function generateStaticParams() {
 }
 
 export default async function WorkoutDetails({ params }) {
-  // Next.js 15+ এ params একটি Promise হিসেবে থাকে
   const resolvedParams = await params;
-  
+
   return <WorkoutClient id={resolvedParams.id} />;
 }
