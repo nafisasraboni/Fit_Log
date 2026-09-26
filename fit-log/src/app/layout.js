@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 
 const geistSans = Geist({
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
           <main className="flex-grow">
             {children}
           </main>
+          <Footer></Footer>
           
           <ToastContainer position="bottom-right" theme="dark" />
           
