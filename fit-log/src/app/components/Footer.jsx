@@ -3,7 +3,7 @@ import { FaDumbbell } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a0a0a] border-t border-gray-800/60 py-8 px-4 md:px-12 mt-10">
+    <footer className="bg-darkBg border-t border-gray-800/60 py-8 px-4 md:px-12 mt-10">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
           <FaDumbbell className="text-brand text-xl" />
