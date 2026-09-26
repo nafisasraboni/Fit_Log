@@ -1,10 +1,11 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import { AppProvider } from '@/context/AppContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["700"],
 });
 
 export const metadata = {
@@ -32,6 +39,7 @@ export default function RootLayout({ children }) {
         <AppProvider>
           
           <Navbar></Navbar>
+          <Hero></Hero>
           
           {/* flex-grow দেওয়ার কারণে ফুটার সবসময় নিচে থাকবে */}
           <main className="flex-grow">

@@ -5,6 +5,7 @@
   --color-brand: #ccff00;
   --color-darkBg: #0a0a0a;
   --color-cardBg: #111315;
+  --font-oswald: var(--font-oswald); /* Next.js থেকে ফন্ট ভ্যারিয়েবল এখানে আসবে */
 }
 
 body {
