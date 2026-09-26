@@ -196,7 +196,7 @@ export default function WorkoutClient({ id }) {
             }`}
           >
             <FaCalendarPlus className="text-lg" />
-            {isAlreadyInPlan ? "Already in plan" : "Add to today&apos;s plan"}
+            {isAlreadyInPlan ? "Already in plan" : "Add to today's plan"}
           </button>
           
           {/* Secondary Button */}
