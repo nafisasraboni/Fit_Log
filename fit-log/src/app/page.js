@@ -2,10 +2,13 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <h2>Assignment 6</h2>
-      </main>
+    <div className="min-h-screen bg-darkBg flex items-center justify-center flex-col gap-4">
+      <h1 className="text-white text-3xl font-bold">Tailwind Config Test</h1>
+
+      {/* DaisyUI Button + Custom Accent Color */}
+      <button className="btn bg-brand text-black font-bold border-none hover:bg-white">
+        If this is Lime Green, it works!
+      </button>
     </div>
   );
 }
