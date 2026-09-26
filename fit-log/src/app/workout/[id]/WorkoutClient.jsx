@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { FaCalendarPlus, FaRegBookmark } from 'react-icons/fa6';
 
 export default function WorkoutClient({ id }) {
   const [workout, setWorkout] = useState(null);
@@ -158,10 +159,24 @@ export default function WorkoutClient({ id }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="p-4 bg-gray-800 rounded-lg text-gray-500 w-full text-center text-sm font-bold border border-dashed border-gray-600">
-            Call to action buttons placeholder
-          </div>
+        <div className="flex flex-col sm:flex-row gap-4 mt-2">
+          
+          {/* Primary Button */}
+          <button 
+            className="flex-1 bg-brand text-black font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white transition-colors"
+          >
+            <FaCalendarPlus className="text-lg" />
+            Add to today&apos;s plan
+          </button>
+          
+          {/* Secondary Button */}
+          <button 
+            className="flex-1 bg-transparent border border-gray-600 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+          >
+            <FaRegBookmark className="text-lg" />
+            Save for later
+          </button>
+
         </div>
       </div>
     </div>
