@@ -40,12 +40,12 @@ export default function RootLayout({ children }) {
           
           <Navbar />
           
-          <main className="flex-grow">
+          <main className="grow">
             {children}
           </main>
           <Footer></Footer>
           
-          <ToastContainer position="bottom-right" theme="dark" />
+          <ToastContainer position="top-right" theme="dark" limit={1} />
           
         </AppProvider>
       </body>

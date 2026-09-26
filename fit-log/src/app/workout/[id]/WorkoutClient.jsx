@@ -2,12 +2,10 @@
 import { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
 import { AppContext } from '@/context/AppContext';
-import { toast } from 'react-toastify';
 import { FaCalendarPlus, FaRegBookmark } from 'react-icons/fa6';
 
-// Ekhane params er bodole direct id prop receive korchi
 export default function WorkoutClient({ id }) {
-  const { addToPlan, addToSaved, plan = [] } = useContext(AppContext);
+  const { addToPlan, addToSaved, planList = [], savedList = [] } = useContext(AppContext);
   
   const [workout, setWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,19 +34,26 @@ export default function WorkoutClient({ id }) {
     fetchWorkoutDetail();
   }, [id]);
 
+  const currentPlan = Array.isArray(planList) ? planList : [];
+  const currentSaved = Array.isArray(savedList) ? savedList : [];
+  const workoutId = String(workout?.id || workout?._id || '');
+
+  const isAlreadyInPlan = currentPlan.some(
+    (item) => String(item.id || item._id || '') === workoutId
+  );
+
+  const isAlreadySaved = currentSaved.some(
+    (item) => String(item.id || item._id || '') === workoutId
+  );
+
   const handleAddToPlan = () => {
-    const currentPlan = Array.isArray(plan) ? plan : [];
-    if (currentPlan.length >= 5) {
-      toast.error("Cap of five lifts reached for today!");
-      return;
-    }
-    addToPlan(workout);
-    toast.success("Added to today's plan"); // শুধু একটি টোস্ট
+    if (!workout) return;
+    addToPlan(workout); 
   };
 
   const handleSaveForLater = () => {
-    addToSaved(workout);
-    toast.success("Saved for later"); // এখানে একটি মাত্র টোস্ট (info এর বদলে success বা info যেটা রাখতে চান)
+    if (!workout) return;
+    addToSaved(workout); 
   };
 
   if (loading) {
@@ -183,19 +188,29 @@ export default function WorkoutClient({ id }) {
           {/* Primary Button */}
           <button 
             onClick={handleAddToPlan}
-            className="flex-1 bg-brand text-black font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white transition-colors cursor-pointer"
+            disabled={isAlreadyInPlan}
+            className={`flex-1 font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 transition-colors ${
+              isAlreadyInPlan 
+                ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
+                : 'bg-brand text-black hover:bg-white cursor-pointer'
+            }`}
           >
             <FaCalendarPlus className="text-lg" />
-            Add to today&apos;s plan
+            {isAlreadyInPlan ? "Already in plan" : "Add to today&apos;s plan"}
           </button>
           
           {/* Secondary Button */}
           <button 
             onClick={handleSaveForLater}
-            className="flex-1 bg-transparent border border-gray-600 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer"
+            disabled={isAlreadySaved}
+            className={`flex-1 border font-bold text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 transition-colors ${
+              isAlreadySaved
+                ? 'bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed'
+                : 'bg-transparent border-gray-600 text-white hover:bg-gray-800 cursor-pointer'
+            }`}
           >
             <FaRegBookmark className="text-lg" />
-            Save for later
+            {isAlreadySaved ? "Saved" : "Save for later"}
           </button>
         </div>
       </div>
